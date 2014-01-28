@@ -1,0 +1,38 @@
+# mysql2 Sequel adapter connection settings
+
+base: &base
+  encoding: utf8
+  username: utah
+  password:
+  # 'localhost' forces mysql to look for a mysql.sock on the filesystem
+  # We want to force mysql to connect over the network for cases where we
+  # use haproxy, so we use 127.0.0.1 here.
+  host: 127.0.0.1
+  timeout: 1000 # timeout for obtaining a connection from the connection pool
+
+development:
+  database: pyramid_development
+  <<: *base
+
+test: &test
+  database: pyramid_test
+  <<: *base
+
+integration:
+  <<: *test
+
+staging:
+  database: pyramid_staging
+  host: staging.copious.com
+  <<: *base
+
+demo:
+  database: pyramid_demo
+  host: demo1.copious.com
+  <<: *base
+
+production:
+  database: pyramid_production
+  password:
+  host: db3.copious.com
+  <<: *base
